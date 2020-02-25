@@ -1,46 +1,49 @@
 <div class="column is-half">
-  <article class="media box">
-    <figure class="media-left">
-      <p class="image is-64x64">
-        <img src="https://bulma.io/images/placeholders/64x64.png">
-      </p>
-    </figure>
-    <div class="media-content">
-      <%= render 'events/form' %>
-    </div>
-  </article>
-
-
-<% @events.each do | event| %>
-  <div class="box">
-    <article class="media">
-      <div class="media-left">
-        <figure class="image is64x64">
+  <% if user_signed_in? %>
+    <article class="media box">
+      <figure class="media-left">
+        <p class="image is-64x64">
           <img src="https://bulma.io/images/placeholders/64x64.png">
-        </figure>
-      </div>
+        </p>
+      </figure>
       <div class="media-content">
-        <div class="content">
-          <strong>Declan Lawless</strong>
-          <small>@d-lawless92</small>
-          <h1><%= event.title %></h1>
-          <p><%= event.info %></p>
-        </div>
-        <nav class="level">
-          <div class="level-left is-mobile">
-            <%= link_to event, class:"level-item" do %>
-              <span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-            <% end %>
-            <%= link_to edit_event_path(event), class:"level-item" do %>
-              <span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
-            <% end %>
-            <%= link_to event, method: :delete, data:{confirm: "Are you sure you would like to delete this Event?"} do %>
-              <span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
-            <% end %>
-          </div>
-        </nav>
+        <%= render 'events/form' %>
       </div>
     </article>
-  </div>
-<% end %>
+  <% end %>
+
+  <% @events.each do |event| %>
+    <div class="box">
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is64x64">
+            <img src="https://bulma.io/images/placeholders/64x64.png">
+          </figure>
+        </div>
+        <div class="media-content">
+          <div class="content">
+            <strong><%= event.user.first_name %></strong><br/>
+            <small> <%= event.user.username %></small><br/>
+            <h1><%= event.title %></h1>
+            <p><%= event.info %></p>
+          </div>
+          <% if user_signed_in? && current_user.id == event.user_id %>
+            <nav class="level">
+              <div class="level-left is-mobile">
+                <%= link_to event, class: "level-item" do %>
+                  <span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                <% end %>
+                <%= link_to edit_event_path(event), class: "level-item" do %>
+                  <span class="icon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                <% end %>
+                <%= link_to event, method: :delete, data: {confirm: "Are you sure you would like to delete this Event?"} do %>
+                  <span class="icon"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                <% end %>
+              </div>
+            </nav>
+          <% end %>
+        </div>
+      </article>
+    </div>
+  <% end %>
 </div>
