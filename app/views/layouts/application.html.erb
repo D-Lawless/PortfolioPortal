@@ -11,8 +11,9 @@
 
 
   <body>
+
   <% if flash[:notice] %>
-    <div class="notification is-primary global-notification">
+    <div id="flash" class="notification is-primary global-notification">
       <p class="notice"><%= notice %></p>
     </div>
   <% end %>
@@ -21,7 +22,7 @@
       <p class="alert"><%= alert %></p>
     </div>
   <% end %>
-  <nav class="navbar is-info">
+  <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <%= link_to root_path, class: "navbar-item" do %>
         <h1 class="title is-5">Portfolio Portal</h1>
@@ -38,21 +39,21 @@
         <div class="navbar-item">
           <div class="field is-grouped">
             <p class="control">
-              <%= link_to 'New Event', new_event_path, class: "button is-info is-inverted" %>
+              <%= link_to 'New Event', new_event_path, class: "button is-light" %>
             </p>
             <% if user_signed_in? %>
               <p class="control">
-                <%= link_to current_user.first_name, edit_user_registration_path, class: "button is-info" %>
+                <%= link_to current_user.first_name, edit_user_registration_path, class: "button is-light" %>
               </p>
               <p>
-                <%= link_to 'Sign Out', destroy_user_session_path, class: "button is-info",  method: :delete %>
+                <%= link_to 'Sign Out', destroy_user_session_path, class: "button is-light",  method: :delete %>
               </p>
             <%else%>
               <p class="control">
-                <%= link_to 'Sign In', new_user_session_path, class: "button is-info is-inverted" %>
+                <%= link_to 'Sign In', new_user_session_path, class: "button is-light" %>
               </p>
               <p>
-                <%= link_to 'Sign Up', new_user_registration_path, class: "button is-info" %>
+                <%= link_to 'Sign Up', new_user_registration_path, class: "button is-light" %>
               </p>
           <%end%>
           </div>
@@ -63,5 +64,14 @@
     <%= yield %>
 
   </body>
+
+  <script type="text/javascript">
+      $(document).ready(function(){
+          setTimeout(function(){
+              $('#flash').remove();
+          }, 500);
+      })
+  </script>
+
 </html>
 
